@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "144308298707",
+    "project_id": "secret-picture2-app",
+    "storage_bucket": "secret-picture2-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:144308298707:android:1aadbcd1321baaaa190526",
+        "android_client_info": {
+          "package_name": "com.example.secret_picture2_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "144308298707-n79euu1pfibp5dpka9vhmu33q7utarr7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLkYtHfZ6gvjpkMa4NptipaST29USV7D4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "144308298707-n79euu1pfibp5dpka9vhmu33q7utarr7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
