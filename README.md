@@ -1,6 +1,6 @@
 # secret_picture_app
 
-A new Flutter project1.
+A new Flutter project.
 
 ## Getting Started
 
