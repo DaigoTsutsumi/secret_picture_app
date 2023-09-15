@@ -1,6 +1,6 @@
-# secret_picture2_app
+# secret_picture_app
 
-変えたようんち
+A new Flutter project.
 
 ## Getting Started
 
