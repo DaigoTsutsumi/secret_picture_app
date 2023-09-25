@@ -86,7 +86,7 @@ class _PictureFileState extends State<PictureFile> {
         body: widget.folder.imagePathList.isEmpty
             ? const Center(
                 child: Text(
-                'データがないえ？',
+                '写真を追加してください',
               ))
             : GridView.builder(
                 itemCount: widget.folder.imagePathList.length,

@@ -1,11 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:secret_picture2_app/filestore/folder_firestore.dart';
 import 'package:secret_picture2_app/filestore/user_filestore.dart';
 import 'package:secret_picture2_app/firebase_options.dart';
+import 'package:secret_picture2_app/model/view.dart';
 import 'package:secret_picture2_app/pages/add_file_page.dart';
 import 'package:secret_picture2_app/pages/picture_file_page.dart';
 import 'package:secret_picture2_app/pages/terms_page.dart';
+import 'package:secret_picture2_app/state/my_home_state.dart';
 
 import 'utils/shared_prefs.dart';
 
@@ -19,7 +22,12 @@ void main() async {
   String? uid = SharedPrefs.fetchUid();
   print(uid);
   if (uid == null) await UserFirestore.createUser();
-  runApp(const MyApp());
+
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -105,7 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               );
             },
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3, mainAxisSpacing: 10, crossAxisSpacing: 10),
           );
         },
@@ -118,10 +126,11 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
-        //Contaioer(width:20,height:20
-        //decotion:BoxDecorantion)
-        //bo
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
+
+final myHomePageProvider =
+    StateNotifierProvider<MyHomePageStateNotifier, MyHomePageState>(
+        (ref) => MyHomePageStateNotifier());

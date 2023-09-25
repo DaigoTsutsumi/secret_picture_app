@@ -41,6 +41,10 @@ dependencies:
   image_picker: ^1.0.1
   firebase_storage: ^11.2.4
   form_field_validator: ^1.1.0
+  flutter_riverpod: ^2.3.7
+  flutter_hooks: ^0.20.1
+  freezed: ^2.4.1
+  freezed_annotation:
 
 dev_dependencies:
   flutter_test:
@@ -52,6 +56,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  build_runner: ^2.3.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
