@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:secret_picture2_app/filestore/folder_firestore.dart';
-import 'package:secret_picture2_app/main.dart';
 
 class AddFile extends ConsumerStatefulWidget {
   const AddFile({Key? key}) : super(key: key);
@@ -16,13 +15,10 @@ class AddFileState extends ConsumerState<AddFile> {
   @override
   void initState() {
     super.initState();
-    //  `ref` は StatefulWidget のすべてのライフサイクルメソッド内で使用可能です。
-    ref.read(myHomePageProvider.notifier);
   }
 
   @override
   Widget build(BuildContext context) {
-    final Function increment = ref.read(myHomePageProvider.notifier).increment;
     final _formKey = GlobalKey<FormState>();
 
     return Scaffold(
@@ -55,7 +51,6 @@ class AddFileState extends ConsumerState<AddFile> {
             ),
             ElevatedButton(
                 onPressed: () {
-                  increment();
                   if (_formKey.currentState!.validate()) {
                     FolderFirestore.createFolder(controller.text);
                     print(controller.text);

@@ -31,6 +31,28 @@ class FolderFirestore {
     return null;
   }
 
+  static Future<List<Folder>?> getImages() async {
+    try {
+      final collection = await _folderCollection
+          .where('user_id', isEqualTo: SharedPrefs.fetchUid())
+          .get();
+      final folders = collection.docs
+          .map((doc) => Folder(
+                folderId: doc.id,
+                name: doc['name'],
+                imagePathList:
+                    doc['image_path_list'].cast<String>() as List<String>,
+                createdAt: doc['created_time'],
+              ))
+          .toList();
+      return folders;
+    } catch (e) {
+      print(e);
+      print('エラー');
+    }
+    return null;
+  }
+
   // フォルダ追加
   static Future<List<Folder>?> createFolder(String name) async {
     try {
@@ -67,9 +89,12 @@ class FolderFirestore {
   static Future<void> updateFolder(
       String id, List<String> imagePathList) async {
     try {
-      await _folderCollection.doc(id).update({
-        'image_path_list': imagePathList, //storageの画像パス
-      });
+      await _folderCollection.doc(id).set(
+        {
+          'image_path_list': imagePathList, //storageの画像パス
+        },
+        SetOptions(merge: true),
+      );
     } catch (e) {
       print('ファイルの作成失敗　＝＝＝＝＝　$e');
     }

@@ -1,14 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:secret_picture2_app/filestore/folder_firestore.dart';
 import 'package:secret_picture2_app/filestore/user_filestore.dart';
 import 'package:secret_picture2_app/firebase_options.dart';
-import 'package:secret_picture2_app/model/view.dart';
-import 'package:secret_picture2_app/pages/add_file_page.dart';
-import 'package:secret_picture2_app/pages/picture_file_page.dart';
+import 'package:secret_picture2_app/pages/add_folder_page.dart';
+import 'package:secret_picture2_app/pages/picture_folder_page.dart';
 import 'package:secret_picture2_app/pages/terms_page.dart';
-import 'package:secret_picture2_app/state/my_home_state.dart';
+import 'package:secret_picture2_app/view_model/folder_view_model.dart';
 
 import 'utils/shared_prefs.dart';
 
@@ -45,22 +43,25 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends ConsumerStatefulWidget {
   const MyHomePage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  ConsumerState<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends ConsumerState<MyHomePage> {
   void _incrementCounter() {
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
+    final folder = ref.watch(folderViewModelProvider);
+    final folderNotifier = ref.read(folderViewModelProvider.notifier);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -77,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: FutureBuilder(
-        future: FolderFirestore.getAllFolder(),
+        future: folderNotifier.getAllFolder(),
         builder: (context, snapshot) {
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(
@@ -91,6 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
               final folder = snapshot.data![index];
               return GestureDetector(
                 onTap: () {
+                  folderNotifier.updateImages(folder.imagePathList);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -130,7 +132,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-final myHomePageProvider =
-    StateNotifierProvider<MyHomePageStateNotifier, MyHomePageState>(
-        (ref) => MyHomePageStateNotifier());
