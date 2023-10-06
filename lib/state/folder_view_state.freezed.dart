@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$FolderViewState {
   List<Folder>? get folders => throw _privateConstructorUsedError;
   List<String>? get images => throw _privateConstructorUsedError;
+  List<String>? get name => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FolderViewStateCopyWith<FolderViewState> get copyWith =>
@@ -30,7 +31,7 @@ abstract class $FolderViewStateCopyWith<$Res> {
           FolderViewState value, $Res Function(FolderViewState) then) =
       _$FolderViewStateCopyWithImpl<$Res, FolderViewState>;
   @useResult
-  $Res call({List<Folder>? folders, List<String>? images});
+  $Res call({List<Folder>? folders, List<String>? images, List<String>? name});
 }
 
 /// @nodoc
@@ -48,6 +49,7 @@ class _$FolderViewStateCopyWithImpl<$Res, $Val extends FolderViewState>
   $Res call({
     Object? folders = freezed,
     Object? images = freezed,
+    Object? name = freezed,
   }) {
     return _then(_value.copyWith(
       folders: freezed == folders
@@ -57,6 +59,10 @@ class _$FolderViewStateCopyWithImpl<$Res, $Val extends FolderViewState>
       images: freezed == images
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as List<String>?,
     ) as $Val);
   }
@@ -70,7 +76,7 @@ abstract class _$$_FolderViewStateCopyWith<$Res>
       __$$_FolderViewStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Folder>? folders, List<String>? images});
+  $Res call({List<Folder>? folders, List<String>? images, List<String>? name});
 }
 
 /// @nodoc
@@ -86,6 +92,7 @@ class __$$_FolderViewStateCopyWithImpl<$Res>
   $Res call({
     Object? folders = freezed,
     Object? images = freezed,
+    Object? name = freezed,
   }) {
     return _then(_$_FolderViewState(
       folders: freezed == folders
@@ -96,6 +103,10 @@ class __$$_FolderViewStateCopyWithImpl<$Res>
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      name: freezed == name
+          ? _value._name
+          : name // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ));
   }
 }
@@ -104,9 +115,12 @@ class __$$_FolderViewStateCopyWithImpl<$Res>
 
 class _$_FolderViewState implements _FolderViewState {
   const _$_FolderViewState(
-      {final List<Folder>? folders, final List<String>? images})
+      {final List<Folder>? folders,
+      final List<String>? images,
+      final List<String>? name})
       : _folders = folders,
-        _images = images;
+        _images = images,
+        _name = name;
 
   final List<Folder>? _folders;
   @override
@@ -128,9 +142,19 @@ class _$_FolderViewState implements _FolderViewState {
     return EqualUnmodifiableListView(value);
   }
 
+  final List<String>? _name;
+  @override
+  List<String>? get name {
+    final value = _name;
+    if (value == null) return null;
+    if (_name is EqualUnmodifiableListView) return _name;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   String toString() {
-    return 'FolderViewState(folders: $folders, images: $images)';
+    return 'FolderViewState(folders: $folders, images: $images, name: $name)';
   }
 
   @override
@@ -139,14 +163,16 @@ class _$_FolderViewState implements _FolderViewState {
         (other.runtimeType == runtimeType &&
             other is _$_FolderViewState &&
             const DeepCollectionEquality().equals(other._folders, _folders) &&
-            const DeepCollectionEquality().equals(other._images, _images));
+            const DeepCollectionEquality().equals(other._images, _images) &&
+            const DeepCollectionEquality().equals(other._name, _name));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_folders),
-      const DeepCollectionEquality().hash(_images));
+      const DeepCollectionEquality().hash(_images),
+      const DeepCollectionEquality().hash(_name));
 
   @JsonKey(ignore: true)
   @override
@@ -158,12 +184,15 @@ class _$_FolderViewState implements _FolderViewState {
 abstract class _FolderViewState implements FolderViewState {
   const factory _FolderViewState(
       {final List<Folder>? folders,
-      final List<String>? images}) = _$_FolderViewState;
+      final List<String>? images,
+      final List<String>? name}) = _$_FolderViewState;
 
   @override
   List<Folder>? get folders;
   @override
   List<String>? get images;
+  @override
+  List<String>? get name;
   @override
   @JsonKey(ignore: true)
   _$$_FolderViewStateCopyWith<_$_FolderViewState> get copyWith =>

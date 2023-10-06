@@ -1,18 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:secret_picture2_app/filestore/folder_firestore.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:secret_picture2_app/view_model/folder_view_model.dart';
 
-class SettingFile extends StatefulWidget {
-  SettingFile(this.id, {Key? key}) : super(key: key);
+class SettingFile extends ConsumerStatefulWidget {
+  SettingFile(this.id, this.name, {Key? key}) : super(key: key);
   String id;
+  String name;
 
   @override
-  State<SettingFile> createState() => _SettingFileState();
+  ConsumerState<SettingFile> createState() => _SettingFileState();
 }
 
-class _SettingFileState extends State<SettingFile> {
-  TextEditingController controller = TextEditingController();
-
+class _SettingFileState extends ConsumerState<SettingFile> {
 //削除のコード
   Future<void> deleteFolder(String docId) async {
     var document = FirebaseFirestore.instance.collection('folder').doc(docId);
@@ -21,6 +21,9 @@ class _SettingFileState extends State<SettingFile> {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController controller = TextEditingController();
+    final state = ref.watch(folderViewModelProvider);
+    final folderNotifier = ref.read(folderViewModelProvider.notifier);
     final _formKey = GlobalKey<FormState>();
 
     return Scaffold(
@@ -60,8 +63,10 @@ class _SettingFileState extends State<SettingFile> {
             ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    final result = await FolderFirestore.updateNameFolder(
-                        widget.id, controller.text);
+                    final result = await folderNotifier.updateNameFolder(
+                      folderId: widget.id,
+                      name: widget.name,
+                    );
                     if (result) {
                       controller.clear();
                       int count = 0;

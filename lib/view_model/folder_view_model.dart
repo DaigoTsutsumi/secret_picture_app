@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:secret_picture2_app/filestore/folder_firestore.dart';
 import 'package:secret_picture2_app/model/folder.dart';
@@ -37,7 +38,6 @@ class FolderStateNotifier extends StateNotifier<FolderViewState> {
         final imagePath = await storedImage.ref.getDownloadURL();
         imagePathList.add(imagePath);
       }
-      print('あああ${imagePathList}');
       await FolderFirestore.updateFolder(folderId, imagePathList);
       updateImages(imagePathList);
     } catch (e) {
@@ -53,6 +53,17 @@ class FolderStateNotifier extends StateNotifier<FolderViewState> {
     updateImages(tmpImages);
   }
 
+  TextEditingController _controller = TextEditingController();
+
+  ///下記のコードで変更を行った
+  Future<dynamic> updateNameFolder(
+      {required String folderId, required String name}) async {
+    await FolderFirestore.updateNameFolder(folderId, name);
+    List<String> tmpName = List.from(state.name!);
+    tmpName.remove(name);
+    updateName(tmpName);
+  }
+
   void updateFolders(List<Folder> folders) {
     state = state.copyWith(folders: folders);
   }
@@ -61,6 +72,11 @@ class FolderStateNotifier extends StateNotifier<FolderViewState> {
     state = state.copyWith(images: images);
   }
 
-  //void removeImages(List<String> images) {
-  //state = state.where((image) => image.id != id).toList();}
+  void updateName(List<String> name) {
+    state = state.copyWith(name: name);
+  }
+
+  void submit() {
+    // 登録処理
+  }
 }

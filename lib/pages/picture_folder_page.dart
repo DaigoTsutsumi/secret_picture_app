@@ -16,8 +16,6 @@ class PictureFile extends ConsumerWidget {
   Folder folder;
   final ImagePicker _picker = ImagePicker();
 
-  TextEditingController controller = TextEditingController();
-
   @override
   build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(folderViewModelProvider);
@@ -46,7 +44,8 @@ class PictureFile extends ConsumerWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => SettingFile(folder.folderId)));
+                        builder: (context) =>
+                            SettingFile(folder.folderId, folder.name)));
                 print('設定画面');
               },
             ),

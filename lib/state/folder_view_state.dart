@@ -8,5 +8,6 @@ abstract class FolderViewState with _$FolderViewState {
   const factory FolderViewState({
     List<Folder>? folders,
     List<String>? images,
+    List<String>? name,
   }) = _FolderViewState;
 }
