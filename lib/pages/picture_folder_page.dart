@@ -9,8 +9,8 @@ import 'package:secret_picture2_app/view_model/folder_view_model.dart';
 
 import 'picture_expansion_page.dart';
 
-class PictureFile extends ConsumerWidget {
-  PictureFile(this.folder, {super.key});
+class PictureFolderPage extends ConsumerWidget {
+  PictureFolderPage(this.folder, {super.key});
 
   File? image;
   Folder folder;
@@ -36,7 +36,7 @@ class PictureFile extends ConsumerWidget {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text(folder.name),
+          title: Text(state.name),
           actions: [
             IconButton(
               icon: const Icon(Icons.settings),
@@ -45,40 +45,46 @@ class PictureFile extends ConsumerWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            SettingFile(folder.folderId, folder.name)));
-                print('設定画面');
+                            SettingFolderPage(folder.folderId, state.name)));
+                print('セッティング画面');
               },
             ),
           ],
           centerTitle: true,
         ),
-        body: folder.imagePathList.isEmpty
+        body: RefreshIndicator(
+          onRefresh: () async {
+            await folderNotifier
+                .loadData(folderId: '', images: []); // データを再読み込みするメソッドを実行
+          },
+          child: state.images.isEmpty
 
-            ///future: folderNotifier.getImages(),
-            ? const Center(
-                child: Text(
-                '写真を追加してください',
-              ))
-            : GridView.builder(
-                itemCount: state.images!.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PictureExpansion(
-                                  folder.folderId, state.images![index])));
-                      print(state.images!);
-                    },
-                    child: Image.network(state.images![index]),
-                  );
-                },
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 10),
-              ),
+              ///future: folderNotifier.getImages(),
+              ? const Center(
+                  child: Text(
+                  '写真を追加してください',
+                ))
+              : GridView.builder(
+                  itemCount: state.images.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PictureExpansionPage(
+                                    folder.folderId, state.images[index])));
+                        print(state.images);
+                      },
+                      child: Image.network(state.images[index]),
+                    );
+                  },
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 10),
+                ),
+        ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             final images = await selectImage();
@@ -93,7 +99,6 @@ class PictureFile extends ConsumerWidget {
           ///・右下のボタンからOSのアルバムの画像をフォルダに追加
           //uplordImage()///　・FirebaseのStorageに追加
           ///　・表示中のfolderドキュメントIDに情報を更新
-          tooltip: 'Increment',
           child: const Icon(Icons.add),
         ));
   }

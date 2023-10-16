@@ -45,6 +45,8 @@ dependencies:
   flutter_hooks: ^0.20.1
   freezed: ^2.4.1
   freezed_annotation:
+  flutter_launcher_icons: ^0.13.1
+  url_launcher: ^6.1.11
 
 dev_dependencies:
   flutter_test:
@@ -100,3 +102,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/ojisan.png"

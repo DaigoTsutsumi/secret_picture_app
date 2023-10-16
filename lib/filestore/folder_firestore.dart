@@ -54,7 +54,7 @@ class FolderFirestore {
   }
 
   // フォルダ追加
-  static Future<List<Folder>?> createFolder(String name) async {
+  static Future<void> createFolder(String name) async {
     try {
       await _folderCollection.add({
         'image_path_list': [], //storageの画像パス
@@ -62,14 +62,9 @@ class FolderFirestore {
         'user_id': SharedPrefs.fetchUid(),
         'name': name, //ここにファイルの名前を書き込み
       });
-
-      final allFolder = await getAllFolder();
-
-      return allFolder;
     } catch (e) {
       print('ファイルの作成失敗　＝＝＝＝＝　$e');
     }
-    return null;
   }
 
   static Future<bool> updateNameFolder(String id, String name) async {
@@ -105,7 +100,7 @@ class FolderFirestore {
     String docId,
     String imagePath,
   ) async {
-    _folderCollection.doc(docId).update({
+    await _folderCollection.doc(docId).update({
       'image_path_list': FieldValue.arrayRemove([imagePath])
     });
   }

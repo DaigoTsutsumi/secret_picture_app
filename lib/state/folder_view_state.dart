@@ -6,8 +6,8 @@ part 'folder_view_state.freezed.dart';
 @freezed
 abstract class FolderViewState with _$FolderViewState {
   const factory FolderViewState({
-    List<Folder>? folders,
-    List<String>? images,
-    List<String>? name,
+    @Default([]) List<Folder> folders,
+    @Default([]) List<String> images,
+    required String name,
   }) = _FolderViewState;
 }

@@ -5,8 +5,8 @@ import 'package:secret_picture2_app/filestore/user_filestore.dart';
 import 'package:secret_picture2_app/firebase_options.dart';
 import 'package:secret_picture2_app/pages/add_folder_page.dart';
 import 'package:secret_picture2_app/pages/picture_folder_page.dart';
-import 'package:secret_picture2_app/pages/terms_page.dart';
 import 'package:secret_picture2_app/view_model/folder_view_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'utils/shared_prefs.dart';
 
@@ -53,14 +53,14 @@ class MyHomePage extends ConsumerStatefulWidget {
 }
 
 class _MyHomePageState extends ConsumerState<MyHomePage> {
-  void _incrementCounter() {
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
-    final folder = ref.watch(folderViewModelProvider);
+    final state = ref.watch(folderViewModelProvider);
     final folderNotifier = ref.read(folderViewModelProvider.notifier);
+
+    Future<void> refreshData() async {
+      await folderNotifier.getAllFolder();
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -69,62 +69,69 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.settings),
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const TermsFile()));
-              print('設定画面');
+            onPressed: () async {
+              if (!await launchUrl(Uri.parse(
+                  'https://doc-hosting.flycricket.io/mi-mi-noxie-zhen-apuri-privacy-policy/0d01e0b1-6777-479c-a546-1c868ea2d2dc/privacy'))) {
+                throw Exception('Could not launch url');
+              }
             },
           ),
         ],
       ),
-      body: FutureBuilder(
-        future: folderNotifier.getAllFolder(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(
-                child: Text(
-              'データがない？',
-            ));
-          }
-          return GridView.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              final folder = snapshot.data![index];
-              return GestureDetector(
-                onTap: () {
-                  folderNotifier.updateImages(folder.imagePathList);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PictureFile(folder)));
-                  print("フォルダ写真");
-                },
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  color: Colors.red,
-                  child: Stack(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: const [],
-                      ),
-                      Center(child: Text(folder.name)),
-                    ],
+      body: RefreshIndicator(
+        onRefresh: refreshData,
+        child: FutureBuilder(
+          future: folderNotifier.getAllFolder(),
+          builder: (context, snapshot) {
+            if (state.folders.isEmpty) {
+              return const Center(
+                  child: Text(
+                'データがない？',
+              ));
+            }
+            return GridView.builder(
+              itemCount: state.folders.length,
+              itemBuilder: (context, index) {
+                final folder = state.folders[index];
+                return GestureDetector(
+                  onTap: () async {
+                    folderNotifier.updateImages(folder.imagePathList);
+                    await folderNotifier.updateName(folder.name);
+                    if (context.mounted) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PictureFolderPage(folder)));
+                    }
+                    print("フォルダ写真");
+                  },
+                  child: Container(
+                    width: 200,
+                    height: 200,
+                    color: Colors.red,
+                    child: Stack(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: const [],
+                        ),
+                        Center(child: Text(folder.name)),
+                      ],
+                    ),
                   ),
-                ),
-              );
-            },
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3, mainAxisSpacing: 10, crossAxisSpacing: 10),
-          );
-        },
+                );
+              },
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3, mainAxisSpacing: 10, crossAxisSpacing: 10),
+            );
+          },
+        ),
       ),
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const AddFile()));
+              MaterialPageRoute(builder: (context) => const AddFolderPage()));
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),

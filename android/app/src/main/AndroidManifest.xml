@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.secret_picture2_app">
+    package="com.tsutsu.secret_picture2_app">
    <application
-        android:label="secret_picture2_app"
+        android:label="秘密の写真アプリ"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

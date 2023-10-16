@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:secret_picture2_app/view_model/folder_view_model.dart';
 
-class PictureExpansion extends ConsumerStatefulWidget {
-  const PictureExpansion(this.folderId, this.imagePath, {super.key});
+class PictureExpansionPage extends ConsumerStatefulWidget {
+  const PictureExpansionPage(this.folderId, this.imagePath, {super.key});
   final String folderId;
   final String imagePath;
 
   @override
-  ConsumerState<PictureExpansion> createState() => _PictureExpansionState();
+  ConsumerState<PictureExpansionPage> createState() => _PictureExpansionState();
 }
 
-class _PictureExpansionState extends ConsumerState<PictureExpansion> {
+class _PictureExpansionState extends ConsumerState<PictureExpansionPage> {
   @override
   build(BuildContext context) {
     final state = ref.watch(folderViewModelProvider);

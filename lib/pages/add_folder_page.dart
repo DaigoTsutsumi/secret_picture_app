@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:secret_picture2_app/filestore/folder_firestore.dart';
 
-class AddFile extends ConsumerStatefulWidget {
-  const AddFile({Key? key}) : super(key: key);
+class AddFolderPage extends ConsumerStatefulWidget {
+  const AddFolderPage({Key? key}) : super(key: key);
 
   @override
-  AddFileState createState() => AddFileState();
+  AddFolderPageState createState() => AddFolderPageState();
 }
 
 TextEditingController controller = TextEditingController();
 
-class AddFileState extends ConsumerState<AddFile> {
+class AddFolderPageState extends ConsumerState<AddFolderPage> {
   @override
   void initState() {
     super.initState();
@@ -50,9 +50,9 @@ class AddFileState extends ConsumerState<AddFile> {
               height: 80,
             ),
             ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    FolderFirestore.createFolder(controller.text);
+                    await FolderFirestore.createFolder(controller.text);
                     print(controller.text);
                     controller.clear();
                     int count = 0;
