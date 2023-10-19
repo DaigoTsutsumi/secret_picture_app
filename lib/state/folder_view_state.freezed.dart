@@ -16,9 +16,9 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$FolderViewState {
-  List<Folder>? get folders => throw _privateConstructorUsedError;
-  List<String>? get images => throw _privateConstructorUsedError;
-  List<String>? get name => throw _privateConstructorUsedError;
+  List<Folder> get folders => throw _privateConstructorUsedError;
+  List<String> get images => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FolderViewStateCopyWith<FolderViewState> get copyWith =>
@@ -31,7 +31,7 @@ abstract class $FolderViewStateCopyWith<$Res> {
           FolderViewState value, $Res Function(FolderViewState) then) =
       _$FolderViewStateCopyWithImpl<$Res, FolderViewState>;
   @useResult
-  $Res call({List<Folder>? folders, List<String>? images, List<String>? name});
+  $Res call({List<Folder> folders, List<String> images, String name});
 }
 
 /// @nodoc
@@ -47,23 +47,23 @@ class _$FolderViewStateCopyWithImpl<$Res, $Val extends FolderViewState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? folders = freezed,
-    Object? images = freezed,
-    Object? name = freezed,
+    Object? folders = null,
+    Object? images = null,
+    Object? name = null,
   }) {
     return _then(_value.copyWith(
-      folders: freezed == folders
+      folders: null == folders
           ? _value.folders
           : folders // ignore: cast_nullable_to_non_nullable
-              as List<Folder>?,
-      images: freezed == images
+              as List<Folder>,
+      images: null == images
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-      name: freezed == name
+              as List<String>,
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+              as String,
     ) as $Val);
   }
 }
@@ -76,7 +76,7 @@ abstract class _$$_FolderViewStateCopyWith<$Res>
       __$$_FolderViewStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Folder>? folders, List<String>? images, List<String>? name});
+  $Res call({List<Folder> folders, List<String> images, String name});
 }
 
 /// @nodoc
@@ -90,23 +90,23 @@ class __$$_FolderViewStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? folders = freezed,
-    Object? images = freezed,
-    Object? name = freezed,
+    Object? folders = null,
+    Object? images = null,
+    Object? name = null,
   }) {
     return _then(_$_FolderViewState(
-      folders: freezed == folders
+      folders: null == folders
           ? _value._folders
           : folders // ignore: cast_nullable_to_non_nullable
-              as List<Folder>?,
-      images: freezed == images
+              as List<Folder>,
+      images: null == images
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-      name: freezed == name
-          ? _value._name
+              as List<String>,
+      name: null == name
+          ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+              as String,
     ));
   }
 }
@@ -115,42 +115,32 @@ class __$$_FolderViewStateCopyWithImpl<$Res>
 
 class _$_FolderViewState implements _FolderViewState {
   const _$_FolderViewState(
-      {final List<Folder>? folders,
-      final List<String>? images,
-      final List<String>? name})
+      {final List<Folder> folders = const [],
+      final List<String> images = const [],
+      required this.name})
       : _folders = folders,
-        _images = images,
-        _name = name;
+        _images = images;
 
-  final List<Folder>? _folders;
+  final List<Folder> _folders;
   @override
-  List<Folder>? get folders {
-    final value = _folders;
-    if (value == null) return null;
+  @JsonKey()
+  List<Folder> get folders {
     if (_folders is EqualUnmodifiableListView) return _folders;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return EqualUnmodifiableListView(_folders);
   }
 
-  final List<String>? _images;
+  final List<String> _images;
   @override
-  List<String>? get images {
-    final value = _images;
-    if (value == null) return null;
+  @JsonKey()
+  List<String> get images {
     if (_images is EqualUnmodifiableListView) return _images;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return EqualUnmodifiableListView(_images);
   }
 
-  final List<String>? _name;
   @override
-  List<String>? get name {
-    final value = _name;
-    if (value == null) return null;
-    if (_name is EqualUnmodifiableListView) return _name;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
+  final String name;
 
   @override
   String toString() {
@@ -164,7 +154,7 @@ class _$_FolderViewState implements _FolderViewState {
             other is _$_FolderViewState &&
             const DeepCollectionEquality().equals(other._folders, _folders) &&
             const DeepCollectionEquality().equals(other._images, _images) &&
-            const DeepCollectionEquality().equals(other._name, _name));
+            (identical(other.name, name) || other.name == name));
   }
 
   @override
@@ -172,7 +162,7 @@ class _$_FolderViewState implements _FolderViewState {
       runtimeType,
       const DeepCollectionEquality().hash(_folders),
       const DeepCollectionEquality().hash(_images),
-      const DeepCollectionEquality().hash(_name));
+      name);
 
   @JsonKey(ignore: true)
   @override
@@ -183,16 +173,16 @@ class _$_FolderViewState implements _FolderViewState {
 
 abstract class _FolderViewState implements FolderViewState {
   const factory _FolderViewState(
-      {final List<Folder>? folders,
-      final List<String>? images,
-      final List<String>? name}) = _$_FolderViewState;
+      {final List<Folder> folders,
+      final List<String> images,
+      required final String name}) = _$_FolderViewState;
 
   @override
-  List<Folder>? get folders;
+  List<Folder> get folders;
   @override
-  List<String>? get images;
+  List<String> get images;
   @override
-  List<String>? get name;
+  String get name;
   @override
   @JsonKey(ignore: true)
   _$$_FolderViewStateCopyWith<_$_FolderViewState> get copyWith =>
