@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:secret_picture2_app/filestore/folder_firestore.dart';
 
-class AddFile extends StatefulWidget {
-  const AddFile({Key? key}) : super(key: key);
+class AddFolderPage extends ConsumerStatefulWidget {
+  const AddFolderPage({Key? key}) : super(key: key);
 
   @override
-  State<AddFile> createState() => _NextPageState();
+  AddFolderPageState createState() => AddFolderPageState();
 }
 
 TextEditingController controller = TextEditingController();
 
-class _NextPageState extends State<AddFile> {
+class AddFolderPageState extends ConsumerState<AddFolderPage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
@@ -44,11 +50,10 @@ class _NextPageState extends State<AddFile> {
               height: 80,
             ),
             ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    FolderFirestore.createFolder(controller.text);
+                    await FolderFirestore.createFolder(controller.text);
                     print(controller.text);
-                    //await FolderFirestore.createimagepathFolder(controller.text);
                     controller.clear();
                     int count = 0;
                     Navigator.of(context).popUntil((route) => count++ >= 1);
